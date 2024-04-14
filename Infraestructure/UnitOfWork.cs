@@ -13,7 +13,7 @@ namespace EstudoBDM.Infraestructure
     }
     public class UnitOfWork : IUnitOfWork
     {
-        #pragma warning disable 1072
+        #pragma warning disable CS1072
         private readonly EmployeeRepository? _employeeRepository;
 
         public IEmployeeRepository EmployeeRepository

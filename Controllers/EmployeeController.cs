@@ -33,11 +33,11 @@ namespace EstudoBDM.Controllers
 
             var employee = new Employee(addEmployee);
 
-            _employeeRepository.Add(employee);
+            var newEmployee = _employeeRepository.Add(employee);
 
             _uof.Commit();
 
-            return Created(uri: "Url to get created resource", employee);
+            return Created(uri: "Url to get created resource", newEmployee);
         }
 
         [HttpGet]
