@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using EstudoBDM.RouteModels;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EstudoBDM.Models
@@ -10,7 +11,7 @@ namespace EstudoBDM.Models
         string Age { get; }
         string Photo { get; }
     }
-    [Table("employee")]
+    [Table("EMPLOYEE")]
     public class Employee
     {
         [Key]
@@ -18,15 +19,24 @@ namespace EstudoBDM.Models
 
         public string Name { get; private set; }
 
-        public string Age {  get; private set; }
+        public int Age {  get; private set; }
 
-        public string Photo {  get; private set; }
+        public string? Photo {  get; private set; }
 
-        public Employee(string Name, string Age, string Photo)
+        public Employee(string Name, int Age, string Photo)
         {
-            this.Name = Name;
-            this.Age = Age;
+            this.Name  = Name;
+            this.Age   = Age;
             this.Photo = Photo;
+        }
+
+        public Employee(EmployeeRouteModels.AddEmployeeModel addEmployee)
+        {
+            // Nullable fields have been already checked here
+
+            Name  = addEmployee.Name!;
+            Age   = (int)addEmployee.Age!;
+            Photo = addEmployee.Photo;
         }
     }
 }

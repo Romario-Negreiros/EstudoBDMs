@@ -1,6 +1,7 @@
 ﻿using EstudoBDM.Configs;
+using EstudoBDM.Models;
 
-namespace EstudoBDM.Repository
+namespace EstudoBDM.Repositories
 {
     public interface IEmployeeRepository
     {
@@ -10,16 +11,20 @@ namespace EstudoBDM.Repository
     }
     public class EmployeeRepository : IEmployeeRepository
     {
-        private readonly DatabaseConnection dbCon = new DatabaseConnection();
+        public DatabaseConnection DbCon;
+
+        public EmployeeRepository(DatabaseConnection DbCon) {
+            this.DbCon = DbCon;
+        }
 
         public void Add(Employee employee)
         {
-            throw new NotImplementedException();
+            DbCon.Add(employee);
         }
 
         public List<Employee> GetAll()
         {
-            throw new NotImplementedException();
+            return DbCon.Employees.ToList();
         }
     }
 }
