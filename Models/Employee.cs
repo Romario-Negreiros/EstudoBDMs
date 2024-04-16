@@ -1,4 +1,4 @@
-﻿using EstudoBDM.RouteModels;
+﻿using EstudoBDM.DTOs;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -30,7 +30,7 @@ namespace EstudoBDM.Models
             this.Photo = Photo;
         }
 
-        public Employee(EmployeeRouteModels.AddEmployeeModel addEmployee)
+        public Employee(EmployeeDTOs.AddEmployeeDTO addEmployee)
         {
             // Nullable fields have been already checked here
 

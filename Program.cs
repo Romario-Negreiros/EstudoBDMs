@@ -1,6 +1,9 @@
 using EstudoBDM.Infraestructure;
 using EstudoBDM.Configs;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,13 +11,10 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddDbContext<DatabaseConnection>(options =>
 {
-    string connectionString = $"Server   = {Environment.GetEnvironmentVariable("Server")};" +
-                              // $"Port     = {Environment.GetEnvironmentVariable("Port")};" +
-                              $"Database = {Environment.GetEnvironmentVariable("Database")};" +
-                              $"User     = {Environment.GetEnvironmentVariable("UserId")};" +
-                              $"Password = {Environment.GetEnvironmentVariable("Password")};";
-
-    connectionString = "server=localhost;user=romario;password=123456;database=estudobdm";
+    string connectionString = $"Server={Environment.GetEnvironmentVariable("Server")};" +
+                              $"Database={Environment.GetEnvironmentVariable("Database")};" +
+                              $"User={Environment.GetEnvironmentVariable("User")};" +
+                              $"Password={Environment.GetEnvironmentVariable("Password")};";
 
     options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
 });
@@ -24,6 +24,24 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(); // TODO: Learn how to customize Swagger UI.
 
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+
+            ValidIssuer = builder.Configuration["Jwt:Issuer"],
+            ValidAudience = builder.Configuration["Jwt:Audience"],
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+        };
+    });
+builder.Services.AddAuthorization();
+
+builder.Services.AddSingleton<IJwtService>(new JwtService(builder.Configuration));
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 var app = builder.Build();

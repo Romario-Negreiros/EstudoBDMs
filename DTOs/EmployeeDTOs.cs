@@ -1,8 +1,8 @@
-﻿namespace EstudoBDM.RouteModels
+﻿namespace EstudoBDM.DTOs
 {
-    public class EmployeeRouteModels
+    public class EmployeeDTOs
     {
-        public class AddEmployeeModel
+        public class AddEmployeeDTO
         {
             public string? Name { get; set; }
 

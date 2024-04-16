@@ -1,6 +1,6 @@
 using EstudoBDM.Infraestructure;
 using EstudoBDM.Repositories;
-using EstudoBDM.RouteModels;
+using EstudoBDM.DTOs;
 using EstudoBDM.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,7 +20,7 @@ namespace EstudoBDM.Controllers
         }
 
         [HttpPost]
-        public IActionResult Add(EmployeeRouteModels.AddEmployeeModel addEmployee) {
+        public IActionResult Add(EmployeeDTOs.AddEmployeeDTO addEmployee) {
             if (addEmployee.Name == null)
             {
                 return BadRequest("Name cannot be empty!");
