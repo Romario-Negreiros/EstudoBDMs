@@ -1,4 +1,6 @@
-﻿using EstudoBDM.Configs;
+﻿#pragma warning disable CS0649
+
+using EstudoBDM.Configs;
 using EstudoBDM.Repositories;
 using Microsoft.EntityFrameworkCore;
 

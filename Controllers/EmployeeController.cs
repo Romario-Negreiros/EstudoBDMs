@@ -4,6 +4,7 @@ using EstudoBDM.DTOs;
 using EstudoBDM.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace EstudoBDM.Controllers
 {
@@ -20,7 +21,9 @@ namespace EstudoBDM.Controllers
             _employeeRepository = unitOfWork.EmployeeRepository;
         }
 
-        [HttpPost, Authorize]
+        [HttpPost]
+        [Authorize]
+        [ScopeRequirement(claimValue: "write")]
         public IActionResult Add(EmployeeDTOs.AddEmployeeDTO addEmployee) {
             if (addEmployee.name == null)
             {
@@ -43,10 +46,9 @@ namespace EstudoBDM.Controllers
 
         [HttpGet]
         [Authorize]
+        [ScopeRequirement(claimValue: "read")]
         public IActionResult GetAll()
         {
-            return Ok(HttpContext.Request.Headers);
-
             var employees = _employeeRepository.GetAll();
 
             return Ok(employees);

@@ -25,7 +25,7 @@ namespace EstudoBDM.Infraestructure
             {
                 new Claim(JwtRegisteredClaimNames.Sub, loginUser.name!),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new Claim("scopes", loginUser.scopes!.ToString()!)
+                new Claim("scopes", string.Join(", ", loginUser.scopes!))
             };
 
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
@@ -39,7 +39,7 @@ namespace EstudoBDM.Infraestructure
             return new UserDTOs.LoggedUserDTO
             {
                 authenticated = true,
-                token = new JwtSecurityTokenHandler().WriteToken(token),
+                token = new JwtSecurityTokenHandler().WriteToken(token), // Converte o token em uma representação JWS ou JWE (string) comp
                 expiration = expiration
             };
         }
