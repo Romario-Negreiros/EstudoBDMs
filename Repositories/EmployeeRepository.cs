@@ -1,4 +1,6 @@
-﻿using EstudoBDM.Configs;
+﻿#pragma warning disable CS8604
+
+using EstudoBDM.Configs;
 using EstudoBDM.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -20,8 +22,7 @@ namespace EstudoBDM.Repositories
 
         public Employee Add(Employee employee)
         {
-            #pragma warning disable CS8604
-            var result = DbCon.Employees.FromSqlRaw("CALL sp_ins_employee({0}, {1}, {2});", employee.Name, employee.Age, employee.Photo);
+            var result = DbCon.Employees.FromSqlRaw("CALL sp_ins_employee({0}, {1}, {2});", employee.name, employee.age, employee.photo);
 
             var newEmployee = result.ToList().ElementAt(0);
 

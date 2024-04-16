@@ -1,14 +1,16 @@
-﻿namespace EstudoBDM.DTOs
+﻿#pragma warning disable IDE1006
+
+namespace EstudoBDM.DTOs
 {
     public class EmployeeDTOs
     {
         public class AddEmployeeDTO
         {
-            public string? Name { get; set; }
+            public string? name { get; set; }
 
-            public int? Age { get; set; }
+            public int? age { get; set; }
 
-            public string? Photo { get; set; }
+            public string? photo { get; set; }
         }
     }
 }

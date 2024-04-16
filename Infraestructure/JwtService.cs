@@ -23,24 +23,24 @@ namespace EstudoBDM.Infraestructure
         {
             var claims = new[]
             {
-                new Claim(JwtRegisteredClaimNames.Sub, loginUser.Name!),
-                new Claim("scopes", loginUser.Scopes!.ToString()!)
+                new Claim(JwtRegisteredClaimNames.Sub, loginUser.name!),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new Claim("scopes", loginUser.scopes!.ToString()!)
             };
 
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
 
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
-            // Token expires two hours after generation
             var expiration = DateTime.Now.AddMinutes(120);
 
-            var token = new JwtSecurityToken(issuer: _configuration["Jwt:Issuer"], claims: claims, expires: expiration, signingCredentials: credentials);
+            var token = new JwtSecurityToken(issuer: _configuration["Jwt:Issuer"], audience: _configuration["Jwt:Audience"], claims: claims, expires: expiration, signingCredentials: credentials);
 
             return new UserDTOs.LoggedUserDTO
             {
-                Authenticated = true,
-                Token = new JwtSecurityTokenHandler().WriteToken(token),
-                Expiration = expiration
+                authenticated = true,
+                token = new JwtSecurityTokenHandler().WriteToken(token),
+                expiration = expiration
             };
         }
     }

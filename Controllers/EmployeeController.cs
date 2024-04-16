@@ -3,6 +3,7 @@ using EstudoBDM.Repositories;
 using EstudoBDM.DTOs;
 using EstudoBDM.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace EstudoBDM.Controllers
 {
@@ -19,14 +20,14 @@ namespace EstudoBDM.Controllers
             _employeeRepository = unitOfWork.EmployeeRepository;
         }
 
-        [HttpPost]
+        [HttpPost, Authorize]
         public IActionResult Add(EmployeeDTOs.AddEmployeeDTO addEmployee) {
-            if (addEmployee.Name == null)
+            if (addEmployee.name == null)
             {
                 return BadRequest("Name cannot be empty!");
             }
 
-            if (addEmployee.Age == null)
+            if (addEmployee.age == null)
             {
                 return BadRequest("Age cannot be empty!");
             }
@@ -41,8 +42,11 @@ namespace EstudoBDM.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public IActionResult GetAll()
         {
+            return Ok(HttpContext.Request.Headers);
+
             var employees = _employeeRepository.GetAll();
 
             return Ok(employees);

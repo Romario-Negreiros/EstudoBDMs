@@ -10,7 +10,7 @@ namespace EstudoBDM.Controllers
     [Route("api/v1/auth")]
     public class AuthController : ControllerBase
     {
-        private List<UserDTOs.LoggedUserDTO> _users { get; set; } = new List<UserDTOs.LoggedUserDTO>();
+        private readonly List<UserDTOs.LoggedUserDTO> Users = new();
         private readonly IJwtService _jwtService;
         public AuthController(IJwtService jwtService)
         {
@@ -23,7 +23,7 @@ namespace EstudoBDM.Controllers
         {
             var user = _jwtService.GenerateJWT(loginUser);
 
-            _users.Add(user);
+            Users.Add(user);
 
             return Ok(user);
         }
