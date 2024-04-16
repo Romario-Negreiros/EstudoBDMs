@@ -7,9 +7,7 @@ namespace EstudoBDM.DTOs
         public class AddEmployeeDTO
         {
             public string? name { get; set; }
-
             public int? age { get; set; }
-
             public string? photo { get; set; }
         }
     }
