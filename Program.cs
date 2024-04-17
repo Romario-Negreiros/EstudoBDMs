@@ -18,7 +18,7 @@ builder.Services.AddDbContext<DatabaseConnection>(options =>
                               $"User={Environment.GetEnvironmentVariable("User")};" +
                               $"Password={Environment.GetEnvironmentVariable("Password")};";
 
-    connectionString = "Server=localhost;Database=estudobdm;User=romario;Password=123456";
+    connectionString = "Server=localhost;Database=estudobdm;User=romario;Password=123456"; // Verify why just works with this <
 
     options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
 });
@@ -86,11 +86,16 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+}
+
+// Config prod => https://learn.microsoft.com/en-us/aspnet/core/host-and-deploy/linux-nginx?view=aspnetcore-6.0&tabs=linux-ubuntu#:~:text=Deactivate%20HTTPS%20Redirection%20Middleware%20in%20the%20Development%20environment%20(Program.cs)%3A
+if (!app.Environment.IsDevelopment())
+{
+    app.UseHttpsRedirection();
 }
 
 app.UseCors(policy =>
